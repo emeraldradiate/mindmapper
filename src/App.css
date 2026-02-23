@@ -1,42 +1,120 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+/* center all handles at node center, 1px */
+.react-flow__node .react-flow__handle {
+  left: 50% !important;
+  top: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  width: 1px !important;
+  height: 1px !important;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+/* large invisible hit area (200px) for easier shift+drag interaction */
+.react-flow__node .react-flow__handle::before {
+  content: '';
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* style connection lines */
+.react-flow__edge-path {
+  stroke-width: 2 !important;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+/* modal styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
 }
 
-.card {
-  padding: 2em;
+/* modal content style */
+.modal-content {
+  background: #1e1e1e;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  color: white;
+  min-width: 400px;
 }
 
-.read-the-docs {
-  color: #888;
+/* modal section styles */
+.modal-section {
+  margin-bottom: 20px;
+}
+
+.modal-section h3 {
+  margin-bottom: 12px;
+  color: #7b2cbf;
+}
+
+/* shape and option styles */
+.shape-options,
+.color-options {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.shape-option,
+.color-option {
+  padding: 10px 20px;
+  border: 2px solid #555;
+  background: #2a2a2a;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: all 0.2s;
+}
+
+.shape-option:hover,
+.color-option:hover {
+  transform: scale(1.05);
+}
+
+.shape-option.selected,
+.color-option.selected {
+  border-color: #7b2cbf;
+  background: #7b2cbf;
+}
+
+.color-option {
+  width: 50px;
+  height: 50px;
+  border-radius: 8px;
+}
+
+.modal-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+/* resize handle styles */
+.resize-handle {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  background: #7b2cbf;
+  border: 2px solid white;
+  border-radius: 50%;
+  cursor: nwse-resize;
+  z-index: 10;
+}
+
+.resize-handle:hover {
+  background: #9d4edd;
+  transform: scale(1.2);
+}
+
+.react-flow__node.selected .resize-handle {
+  display: block;
 }
