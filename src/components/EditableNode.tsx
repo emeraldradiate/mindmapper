@@ -96,8 +96,13 @@ export function EditableNode({ data, id, selected, isShiftPressed }: EditableNod
       const deltaX = e.clientX - resizeStartRef.current.x;
       const deltaY = e.clientY - resizeStartRef.current.y;
       
-      let newWidth = Math.max(80, resizeStartRef.current.width + deltaX);
-      let newHeight = Math.max(60, resizeStartRef.current.height + deltaY);
+      // diamond shapes need larger minimum dimensions to look good
+      const isDiamond = (data.shape || 'rounded') === 'diamond';
+      const minWidth = isDiamond ? 120 : 80;
+      const minHeight = isDiamond ? 90 : 60;
+      
+      let newWidth = Math.max(minWidth, resizeStartRef.current.width + deltaX);
+      let newHeight = Math.max(minHeight, resizeStartRef.current.height + deltaY);
 
       setDimensions({ width: newWidth, height: newHeight });
     };

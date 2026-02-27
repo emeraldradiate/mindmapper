@@ -52,7 +52,7 @@ export const AddNodeModal: React.FC<AddNodeModalProps> = ({
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
         <h2 style={{ marginTop: 0 }}>Add New Node</h2>
         
-        // node text input
+        {/* node text input */}
         <div className="modal-section">
           <h3>Node Text</h3>
           <input
@@ -73,7 +73,7 @@ export const AddNodeModal: React.FC<AddNodeModalProps> = ({
           />
         </div>
         
-        // shape selection
+        {/* shape selection */}
         <div className="modal-section">
           <h3>Select Shape</h3>
           <div className="shape-options">
@@ -104,7 +104,7 @@ export const AddNodeModal: React.FC<AddNodeModalProps> = ({
           </div>
         </div>
 
-        // color selection for fill and border
+        {/* color selection for fill and border */}
         <div className="modal-section">
           <h3>Select Fill Color</h3>
           <div className="color-options">
@@ -125,7 +125,7 @@ export const AddNodeModal: React.FC<AddNodeModalProps> = ({
           </div>
         </div>
 
-        // border color selection
+        {/* border color selection */}
         <div className="modal-section">
           <h3>Select Border Color</h3>
           <div className="color-options">
@@ -146,7 +146,7 @@ export const AddNodeModal: React.FC<AddNodeModalProps> = ({
           </div>
         </div>
 
-        // action buttons
+        {/* action buttons */}
         <div className="modal-buttons">
           <button onClick={onAdd} style={{...buttonStyle, flex: 1}}>
             Create Node

@@ -291,8 +291,9 @@ function AppContent() {
   // add new node
   const addNode = useCallback(() => {
     const shape = selectedShape;
-    const width = 80;
-    const height = 60;
+    // diamond shapes need larger dimensions to look good
+    const width = shape === 'diamond' ? 160 : 80;
+    const height = shape === 'diamond' ? 120 : 60;
     
     // get center of current viewport
     const viewportWidth = window.innerWidth;
@@ -368,6 +369,16 @@ function AppContent() {
     [setEdges]
   );
 
+  // delete selected nodes
+  const deleteSelectedNodes = useCallback(() => {
+    const selectedNodes = nodes.filter(n => n.selected);
+    if (selectedNodes.length === 0) return;
+    
+    const nodesToDelete = selectedNodes.map(n => n.id);
+    setNodes((nds) => nds.filter((n) => !nodesToDelete.includes(n.id)));
+    setEdges((eds) => eds.filter((e) => !nodesToDelete.includes(e.source) && !nodesToDelete.includes(e.target)));
+  }, [nodes, setNodes, setEdges]);
+
   // delete node on right-click
   const onNodeContextMenu = useCallback(
     (event: React.MouseEvent, node: any) => {
@@ -435,7 +446,7 @@ function AppContent() {
     }
   }, [copiedNode, setNodes, reactFlowInstance]);
 
-  // keyboard shortcuts for undo/redo/copy/paste
+  // keyboard shortcuts for undo/redo/copy/paste/delete
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if ((e.ctrlKey || e.metaKey) && e.key === 'z' && !e.shiftKey) {
@@ -450,12 +461,19 @@ function AppContent() {
       } else if ((e.ctrlKey || e.metaKey) && e.key === 'v') {
         e.preventDefault();
         pasteNode();
+      } else if (e.key === 'Delete' || e.key === 'Backspace') {
+        // don't delete if user is typing in an input or textarea
+        const target = e.target as HTMLElement;
+        if (target.tagName !== 'INPUT' && target.tagName !== 'TEXTAREA') {
+          e.preventDefault();
+          deleteSelectedNodes();
+        }
       }
     };
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [undo, redo, copyNode, pasteNode]);
+  }, [undo, redo, copyNode, pasteNode, deleteSelectedNodes]);
 
   // open color picker on edge click
   const onEdgeClick = useCallback(
